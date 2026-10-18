@@ -1,5 +1,3 @@
-// https://priteshs-organization.gitbook.io/assignment-1#id-11.-error-handling
-
 const logger = require('../config/logger');
 
 const errorHandler = (err, req, res, next) => {

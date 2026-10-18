@@ -27,7 +27,7 @@ router.post('/signup', limiter, validateUserInput, async (req, res, next) => {
     let userExists = await User.findOne({
       $or: [
         {email: email.toLowerCase().trim()},
-        {username: username.trim()}
+        {username: {$regex: `^${username.trim()}$`, $options: 'i'}}
       ]
     });
 
@@ -53,6 +53,7 @@ router.post('/signup', limiter, validateUserInput, async (req, res, next) => {
 });
 
 // POST /api/v1/user/login
+// frontend: store JWT into localstorage
 router.post('/login', limiter, async (req, res, next) => {
   const {identifier, email, username, password} = req.body;
   const loginCredential = identifier || email || username;
@@ -69,7 +70,7 @@ router.post('/login', limiter, async (req, res, next) => {
     const user = await User.findOne({
       $or: [
         {email: loginCredential.toLowerCase().trim()},
-        {username: loginCredential.trim()}
+        {username: {$regex: `^${loginCredential.trim()}$`, $options: 'i'}}
       ]
     });
 
@@ -93,5 +94,7 @@ router.post('/login', limiter, async (req, res, next) => {
     next(error);
   }
 });
+
+// handle logout on frontend, destroy JWT from localstorage
 
 module.exports = router;

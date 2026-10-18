@@ -12,6 +12,12 @@ const characterRoutes = require('./routes/characterRoutes');
 
 const app = express();
 
+app.use(cors({
+  origin: 'http://localhost:3333',
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
+  credentials: true
+}));
+
 app.use(helmet());
 app.use(limiter);
 app.use(express.json());
@@ -24,7 +30,7 @@ connectDB();
 
 app.use('/api/v1/health', healthRoutes);
 app.use('/api/v0/user', userRoutes);
-app.use('/api/v0/character', characterRoutes);
+app.use('/api/v0/characters', characterRoutes);
 
 app.use((req, res, next) => {
   logger.warn(`Unsupported route called ${req.method} ${req.originalUrl} by ${req.ip}`);
