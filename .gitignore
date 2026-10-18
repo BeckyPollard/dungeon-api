@@ -1,0 +1,11 @@
+.DS_Store
+*.config
+*.zip
+*.rar
+*.txt
+node_modules/
+dist/
+build/
+.env
+logs/
+TODO/
